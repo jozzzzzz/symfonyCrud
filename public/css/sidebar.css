@@ -1,0 +1,39 @@
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 17%;
+    background-color: #f8f9fa;
+    padding: 5%;
+    overflow: auto;
+}
+
+img{
+    width: 200px;
+    height: auto;
+}
+
+.sidebar .menu {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 200px;
+}
+
+.sidebar .menu li {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.sidebar .btn {
+    width: 100%;
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.sidebar .button {
+    position: absolute;
+    bottom: 60px;
+    left: 20px;
+}

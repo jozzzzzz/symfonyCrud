@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des devis{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/sidebar.css') }}">
+{% endblock %}
+
+{% block body %}
+	{% include 'sidebar.html.twig' %}
+
+    <div class="container-xxl flex-grow-1 container-p-y">
+        <h1>Liste des devis</h1>
+        <a href="{{url('app_ajouter_devis')}}"><button type="button" class="btn rounded-pill btn-primary">Ajouter</button></a>
+        <table class="table table-condensed">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Id Commanditaire</th>
+                    <th>Nom</th>
+                    <th>Prix</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for devis in devis %}
+                <tr>
+                    <td>{{loop.index}}</td>
+                    <td>{{devis.idCommanditaire}}</td>
+                    <td>{{devis.name}}</td>
+                    <td>{{devis.prix}}€</td>
+                    <td>{{devis.date|date('d-m-y')}}</td>
+                    <td>
+                        <a class="btn rounded-pill btn-warning" href="{{url('app_modifier_devis', {'id':devis.id})}}">Modifier</a>
+                        <a class="btn rounded-pill btn-danger" data-bs-toggle="modal" data-bs-target="#myModal">Supprimer</a>
+                        <div class="modal" id="myModal">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+
+                                <!-- Modal Header -->
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Suppression d'un devis</h4>
+                                </div>
+
+                                <!-- Modal body -->
+                                <div class="modal-body">
+                                    Cette action est irréversible !
+                                    Voulez-vous supprimer ce devis ?
+                                </div>
+
+                                <!-- Modal footer -->
+                                <div class="modal-footer">
+                                    <a class="btn rounded-pill btn-danger" href="{{url('app_supprimer_devis', {'id':devis.id})}}">Confirmez</a>
+                                    <a class="btn btn-secondary" data-bs-dismiss="modal">Annuler</a>
+                                </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    <div
+{% endblock %}

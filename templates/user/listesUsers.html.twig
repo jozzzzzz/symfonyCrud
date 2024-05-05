@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des users{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/sidebar.css') }}">
+{% endblock %}
+
+{% block body %}
+	{% include 'sidebar.html.twig' %}
+
+	<div class="container-xxl flex-grow-1 container-p-y">
+		<h3>Listes des users</h3>
+		<a href="{{url('app_ajouter_user')}}"><button type="button" class="btn rounded-pill btn-primary">Ajouter</button></a>
+		<table class="table table-condensed">
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>Nom</th>
+					<th>Prenom</th>
+					<th>Email</th>
+					<th>Gender</th>
+					<th>RGPD</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for user in users %}
+					<tr>
+						<td>{{loop.index}}</td>
+						<td>{{user.lastName}}</td>
+						<td>{{user.firstName}}</td>
+						<td>{{user.email}}</td>
+						<td>{{user.gender}}</td>
+						<td>{{user.rgpd}}</td>
+						<td>
+                            <a class="btn rounded-pill btn-warning" href="{{url('app_modifier_user', {'id':user.id})}}">Modifier</a>
+							<a class="btn rounded-pill btn-danger" data-bs-toggle="modal" data-bs-target="#myModal">Supprimer</a>
+							<div class="modal" id="myModal">
+								<div class="modal-dialog">
+									<div class="modal-content">
+
+									<!-- Modal Header -->
+									<div class="modal-header">
+										<h4 class="modal-title">Suppression d'un user</h4>
+									</div>
+
+									<!-- Modal body -->
+									<div class="modal-body">
+										Cette action est irréversible !
+										Voulez-vous supprimer ce user ?
+									</div>
+
+									<!-- Modal footer -->
+									<div class="modal-footer">
+										<a class="btn rounded-pill btn-danger" href="{{url('app_supprimer_user', {'id':user.id})}}">Confirmez</a>
+										<a class="btn btn-secondary" data-bs-dismiss="modal">Annuler</a>
+									</div>
+
+									</div>
+								</div>
+							</div>
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+{% endblock %}
