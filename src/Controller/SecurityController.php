@@ -8,9 +8,16 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\AuthUserRepository;
+use App\Service\UserStatusService;
 
 class SecurityController extends AbstractController
 {
+    private $statusService;
+
+    public function __construct(UserStatusService $statusService) {
+        $this->statusService = $statusService;
+    }
+
     #[Route('/', name: 'app_login')]
     public function login(Request $request, AuthUserRepository $authUserRepository)
     {   
@@ -31,6 +38,7 @@ class SecurityController extends AbstractController
     
             if ($existingUser && password_verify($submittedPassword, $existingUser->getPassword())) {
                 // Authentification réussie, rediriger vers une autre page
+                $this->statusService->setStatus(true);
                 return $this->redirectToRoute('app_users');
             } else {
                 // Authentification échouée, afficher un message d'erreur
@@ -42,5 +50,12 @@ class SecurityController extends AbstractController
         return $this->render('security/login.html.twig',[
             'form'=>$form->createView()
         ]);
+    }
+
+    #[Route('/logout', name: 'app_logout')]
+    public function logout()
+    {
+        $this->statusService->setStatus(false);
+        return $this->redirectToRoute('app_login');
     }
 }
